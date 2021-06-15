@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .parent {
+        width: 400px;
+        height: 400px;
+        background: red;
+        transition: 1s;
+      }
+      .child {
+        opacity: 0;
+        background-color: green;
+        transition: 0.5s;
+      }
+
+      .parent:hover .child {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="parent">
+      <button class="child">Fade in</button>
+    </div>
+  </body>
+</html>

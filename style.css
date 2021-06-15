@@ -1,0 +1,45 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+.box {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  margin: auto;
+  border: 2px black solid;
+  top: 25%;
+  left: 25%;
+}
+
+.item1, .item2 {
+  width: 100px;
+  height: 100px;
+}
+
+.item1 {
+  position: absolute;
+  bottom: 100px;
+  left: 0;
+  background-color: red;
+}
+
+
+.item2 {
+  position: fixed;
+  background-color: hsl(240, 100%, 50%);
+}
+.item2:hover {
+  background-color: yellow
+}
+
+.item2:hover .box {
+  background-color: green;
+}
+
+.item2:hover .item1 {
+  transition-duration: 1s;
+  bottom: 10px;
+}
