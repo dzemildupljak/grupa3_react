@@ -1,0 +1,13 @@
+.body {
+    width: 100vw;
+    height: 88vh;
+    background-color: blue;
+}
+
+.card {
+    height: 300px;
+    width: 100px;
+    background-color: brown;
+    border: 1px solid black;
+
+}

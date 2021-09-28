@@ -1,0 +1,18 @@
+.header-body {
+    width: 100vw;
+    height: 80px;
+    background-color: red;
+    display: flex;
+}
+
+.header-body ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+.header-body ul li {
+    width: 100px;
+    border: 2px solid black;
+    height: 40px;
+}
