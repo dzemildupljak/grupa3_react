@@ -1,27 +1,23 @@
+import { useState } from "react";
 import "./App.css";
-import Content from "./components/content/Content";
-import Header from "./components/header/Header";
+import ChangeNubers from "./components/changeNumbers/ChangeNubers";
+import ShowNumber from "./components/showNumber/ShowNumber";
 
 function App() {
-  const ime = "Dzemil";
-  const prezime = "Dupljak";
-  let rezerva = "  asdasda";
-  console.log(rezerva);
+  const [counter, setCounter] = useState(0);
 
-  const promenaVred = (nova_vred) => {
-    rezerva = nova_vred;
-    console.log(rezerva);
+  const increaseVal = () => {
+    setCounter(counter + 1);
+  };
+
+  const decreaseVal = () => {
+    setCounter(counter - 1);
   };
 
   return (
-    <div className="App">
-      <Header ime_kor={ime} prez_kor={prezime} />
-      <button onClick={() => promenaVred("nova vrednost rezerve")}>
-        PROMENA
-      </button>
-      {ime}
-      {prezime}
-      <Content name={ime} prezime={prezime} prom_vred={promenaVred} />
+    <div className="container">
+      <ShowNumber number={counter} />
+      <ChangeNubers plusFunc={increaseVal} minusFunc={decreaseVal} />
     </div>
   );
 }

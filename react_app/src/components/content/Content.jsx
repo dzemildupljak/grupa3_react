@@ -1,7 +1,7 @@
 import React from "react";
 import "./Content.css";
 
-const Content = ({ name, prezime, prom_vred }) => {
+const Content = ({ name, prezime, prom_vred }) => { 
   return (
     <div className="body">
       <div className="card">
