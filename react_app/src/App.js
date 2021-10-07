@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import NewTodoItem from "./components/newTodoItem/NewTodoItem";
 import TodoItem from "./components/todoItem/TodoItem";
 
 function App() {
@@ -22,46 +23,85 @@ function App() {
     },
   ]);
 
-  var counter = 2;
+  const [counter, setCounter] = useState(3);
 
   const hanleInputChange = (event) => {
     setInputItem(event.target.value);
   };
 
   const addNewItem = () => {
-    counter += 1;
-
     let item = {
       id: counter,
       title: inputItem,
       is_done: false,
     };
 
-    setItems([...items, item]);
-    setInputItem("");
+    if (item.title) {
+      setItems([...items, item]);
+      setInputItem("");
+      setCounter(counter + 1);
+    }
+  };
+
+  const handleCheckedItem = (elIndex) => {
+    setItems(
+      items.map((el, index) => {
+        if (index === elIndex) {
+          el.is_done = !el.is_done;
+        }
+        return el;
+      })
+    );
+  };
+
+  const removeTodoItem = (elIndex) => {
+    // let localItems = [...items];
+    // localItems.splice(elIndex, 1);
+
+    // setItems(localItems);
+
+    setItems((prevItems) => {
+      // prevItems.splice(elIndex, 1);
+      console.log(prevItems);
+      return [...prevItems.splice(elIndex, 1)];
+    });
+
+    // setItems([
+    //   items.filter((el, index) => {
+    //     if (index !== elIndex) {
+    //       return el;
+    //     }
+    //   }),
+    // ]);
   };
 
   return (
     <div>
-      <div className="addItem">
-        <button onClick={addNewItem}>Add task</button>
-        <input
-          type="text"
-          value={inputItem}
-          onChange={(e) => hanleInputChange(e)}
-        />
-      </div>
-      <div className="item">
-        {items.map((item, index) => {
-          return (
-            <TodoItem
-              itemTitle={item.title}
-              isDone={item.is_done}
-              key={index}
-            />
-          );
-        })}
-      </div>
+      <NewTodoItem
+        changeInput={hanleInputChange}
+        title={inputItem}
+        addNewItem={addNewItem}
+      />
+      {items.length === 0 ? (
+        <h1>Lista je prazna!!!</h1>
+      ) : (
+        <div>
+          <div className="item">
+            {items.map((item, index) => {
+              return (
+                <TodoItem
+                  itemTitle={item.title}
+                  isDone={item.is_done}
+                  key={index}
+                  indx={index}
+                  changeHandler={handleCheckedItem}
+                  removeItem={removeTodoItem}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
