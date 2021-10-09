@@ -1,107 +1,45 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import "./App.css";
-import NewTodoItem from "./components/newTodoItem/NewTodoItem";
-import TodoItem from "./components/todoItem/TodoItem";
+import CardList from "./components/cat_facts/cardList/CardList";
 
 function App() {
-  const [inputItem, setInputItem] = useState("");
-  const [items, setItems] = useState([
-    {
-      id: 0,
-      title: "Kupit hleb",
-      is_done: false,
-    },
-    {
-      id: 1,
-      title: "Ici kod frizera",
-      is_done: false,
-    },
-    {
-      id: 2,
-      title: "Prijaviti ispit",
-      is_done: true,
-    },
-  ]);
+  const [factsArr, setFactsArr] = useState([]);
+  const [limit, setLimit] = useState(5);
 
-  const [counter, setCounter] = useState(3);
-
-  const hanleInputChange = (event) => {
-    setInputItem(event.target.value);
-  };
-
-  const addNewItem = () => {
-    let item = {
-      id: counter,
-      title: inputItem,
-      is_done: false,
-    };
-
-    if (item.title) {
-      setItems([...items, item]);
-      setInputItem("");
-      setCounter(counter + 1);
-    }
-  };
-
-  const handleCheckedItem = (elIndex) => {
-    setItems(
-      items.map((el, index) => {
-        if (index === elIndex) {
-          el.is_done = !el.is_done;
-        }
-        return el;
-      })
+  const getData = async () => {
+    let response = await axios.get(
+      `https://catfact.ninja/facts?limit=${limit}`
     );
+    console.log(response.data);
+    setFactsArr(response.data.data);
   };
 
-  const removeTodoItem = (elIndex) => {
-    // let localItems = [...items];
-    // localItems.splice(elIndex, 1);
+  useEffect(() => {
+    getData();
+  }, []);
 
-    // setItems(localItems);
-
-    setItems((prevItems) => {
-      // prevItems.splice(elIndex, 1);
-      console.log(prevItems);
-      return [...prevItems.splice(elIndex, 1)];
-    });
-
-    // setItems([
-    //   items.filter((el, index) => {
-    //     if (index !== elIndex) {
-    //       return el;
-    //     }
-    //   }),
-    // ]);
+  const handleDropDown = (event) => {
+    setLimit(event.target.value);
   };
 
   return (
     <div>
-      <NewTodoItem
-        changeInput={hanleInputChange}
-        title={inputItem}
-        addNewItem={addNewItem}
-      />
-      {items.length === 0 ? (
-        <h1>Lista je prazna!!!</h1>
-      ) : (
-        <div>
-          <div className="item">
-            {items.map((item, index) => {
-              return (
-                <TodoItem
-                  itemTitle={item.title}
-                  isDone={item.is_done}
-                  key={index}
-                  indx={index}
-                  changeHandler={handleCheckedItem}
-                  removeItem={removeTodoItem}
-                />
-              );
-            })}
-          </div>
-        </div>
-      )}
+      <select
+        id="cars"
+        name="cars"
+        onChange={(e) => {
+          handleDropDown(e);
+        }}
+        value={limit}
+      >
+        <option value={5}>5</option>
+        <option value={10}>10</option>
+        <option value={20}>20</option>
+        <option value={50}>50</option>
+      </select>
+      <button onClick={getData}>FETCH</button>
+      <CardList listFacts={factsArr} />
     </div>
   );
 }
