@@ -13,3 +13,11 @@
   align-items: center;
   border: 3px solid black;
 }
+
+.pagination {
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
