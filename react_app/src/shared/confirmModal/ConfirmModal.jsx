@@ -1,25 +1,30 @@
 import React from "react";
 import "./ConfirmModal.css";
 
-export default function ConfirmModal({ closeModal, confirmModal }) {
+export default function ConfirmModal({ closeModal, confirmModal, children }) {
   return (
     <div>
       <div id="myModal" className="modal">
         <div className="modal-content">
-          <span className="close" onClick={closeModal}>
+          <span className="close" onClick={() => closeModal(false)}>
             &times;
           </span>
-          <p>Da li ste sigurno da hocete da izbirsete usera..</p>
+          {children}
           <div className="modalBtns">
-            <button
-              className="btnYes"
-              onClick={() => {
-                confirmModal();
-              }}
-            >
-              Yes
-            </button>
-            <button className="btnNo" onClick={closeModal}>
+            {confirmModal && (
+              <button
+                className="btnYes"
+                onClick={() => {
+                  if (confirmModal) {
+                    confirmModal();
+                  }
+                  closeModal(false);
+                }}
+              >
+                Yes
+              </button>
+            )}
+            <button className="btnNo" onClick={() => closeModal(false)}>
               No
             </button>
           </div>

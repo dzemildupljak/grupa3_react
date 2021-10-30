@@ -1,7 +1,12 @@
 import React from "react";
 import "./UserTable.css";
 
-export default function UserTable({ users, showModalFunc, sestUserID }) {
+export default function UserTable({
+  users,
+  showModalFunc,
+  sestUserID,
+  showProfile,
+}) {
   return (
     <div>
       <table id="customers">
@@ -20,7 +25,7 @@ export default function UserTable({ users, showModalFunc, sestUserID }) {
         <tbody>
           {users.map((user) => {
             return (
-              <tr key={user.id}>
+              <tr key={user.id} onClick={() => showProfile(true)}>
                 <td>{user.id}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
@@ -30,11 +35,16 @@ export default function UserTable({ users, showModalFunc, sestUserID }) {
                 <td>
                   <button id="editBtn">Edit</button>
                 </td>
-                <td>
-                  <button id="delBtn" onClick={() => {
-                    sestUserID(user.id)
-                    showModalFunc()
-                  }}>Del</button>
+                <td onClick={(e) => e.stopPropagation()}>
+                  <button
+                    id="delBtn"
+                    onClick={() => {
+                      sestUserID(user.id);
+                      showModalFunc(true);
+                    }}
+                  >
+                    Del
+                  </button>
                 </td>
               </tr>
             );

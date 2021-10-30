@@ -5,8 +5,9 @@ import ConfirmModal from "../../shared/confirmModal/ConfirmModal";
 
 export default function HomePage() {
   const [usersArr, setUsersArr] = useState([]);
-  const [modalFlag, setModalFlag] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [userID, setUserID] = useState();
+  const [userProfileModal, setUserProfileModal] = useState(true);
 
   useEffect(() => {
     fetchData();
@@ -30,30 +31,36 @@ export default function HomePage() {
       await axios.delete(
         `https://centarnitbe.herokuapp.com/user/hard_delete/${userID}`
       );
-      changeModalFlag();
       fetchData();
     } catch (error) {
       console.log(error);
     }
   };
-
-  const changeModalFlag = () => {
-    if (modalFlag === true) {
-      setUserID("");
-    }
-    setModalFlag(!modalFlag);
+  const delModalHandle = (val) => {
+    setDeleteModal(val);
   };
 
+  const userProfModal = (val) => {
+    setUserProfileModal(val);
+  };
   return (
     <div>
-      {modalFlag && (
-        <ConfirmModal closeModal={changeModalFlag} confirmModal={deleteUser} />
+      {console.log(deleteModal)}
+      {deleteModal && (
+        <ConfirmModal closeModal={delModalHandle} confirmModal={deleteUser}>
+          <p>Da li ste sigurni da cete da izbrisete user-a</p>
+        </ConfirmModal>
+      )}
+      {userProfileModal && (
+        <ConfirmModal closeModal={userProfModal}>
+          <p>OVO JE PORFIL USERA!!!</p>
+        </ConfirmModal>
       )}
       <h1>OBO JE HOMEPAGE</h1>
-      {console.log(userID)}
       <UserTable
         users={usersArr}
-        showModalFunc={changeModalFlag}
+        showModalFunc={delModalHandle}
+        showProfile={userProfModal}
         sestUserID={setUserID}
       />
     </div>
